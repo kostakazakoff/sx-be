@@ -104,7 +104,7 @@
                         </label>
                         <textarea id="description_en" name="description_en" placeholder="Въведете описание на проекта на английски"
                             rows="4"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('description_en') border-red-500 @enderror">{{ old('description_en', $project->description) }}</textarea>
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('description_en') border-red-500 @enderror">{{ old('description_en', $project->getTranslation('description', 'en')) }}</textarea>
                         @error('description_en')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
