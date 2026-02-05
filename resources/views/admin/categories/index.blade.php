@@ -33,7 +33,7 @@
                 </thead>
                 <tbody>
                     @forelse ($categories ?? [] as $category)
-                        <tr class="border-t hover:bg-gray-50">
+                        <tr class="border-t border-gray-200 hover:bg-gray-50">
                             <td class="px-6 py-3">
                                 @if ($category->image_src)
                                     <img src="{{ $category->image_src }}" alt="{{ $category->translation_key }}"

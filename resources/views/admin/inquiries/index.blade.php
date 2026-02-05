@@ -95,7 +95,7 @@
                 </thead>
                 <tbody>
                     @forelse($inquiries ?? [] as $inquiry)
-                        <tr class="border-t hover:bg-gray-50">
+                        <tr class="border-t border-gray-200 hover:bg-gray-50">
                             <td class="px-4 sm:px-6 py-2 sm:py-3 text-xs lg:text-sm">
                                 {{ optional($inquiry->client)->first_name }} {{ optional($inquiry->client)->last_name }}
                             </td>

@@ -34,7 +34,7 @@
                 </thead>
                 <tbody>
                     @forelse ($news ?? [] as $article)
-                        <tr class="border-t hover:bg-gray-50">
+                        <tr class="border-t border-gray-200 hover:bg-gray-50">
                             <td class="px-6 py-3">
                                 @if ($article->image_src)
                                     <img src="{{ $article->image_src }}" alt="{{ $article->translation_key }}"

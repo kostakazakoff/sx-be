@@ -97,7 +97,7 @@
                 </thead>
                 <tbody>
                     @forelse($clients ?? [] as $client)
-                        <tr class="border-t hover:bg-gray-50">
+                        <tr class="border-t border-gray-200 hover:bg-gray-50">
                             <td class="px-4 sm:px-6 py-2 sm:py-3 text-center">
                                 <input type="checkbox"
                                     class="client-checkbox w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"

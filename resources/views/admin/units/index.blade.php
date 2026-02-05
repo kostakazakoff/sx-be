@@ -39,7 +39,7 @@
                 </thead>
                 <tbody>
                     @forelse ($units ?? [] as $unit)
-                        <tr class="border-t hover:bg-gray-50">
+                        <tr class="border-t border-gray-200 hover:bg-gray-50">
                             <td class="px-4 sm:px-6 py-2 sm:py-3">
                                 <div class="text-xs lg:text-sm">
                                     <div class="text-blue-600">en: {{ $unit->getTranslation('name', 'en') }}</div>

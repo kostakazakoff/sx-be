@@ -64,7 +64,7 @@
                 </thead>
                 <tbody>
                     @forelse($services as $service)
-                        <tr class="border-t hover:bg-gray-50">
+                        <tr class="border-t border-gray-200 hover:bg-gray-50">
                             <td class="px-6 py-3">
                                 @if ($service->image_src)
                                     <img src="{{ $service->image_src }}" alt="{{ $service->name }}"
