@@ -15,16 +15,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Uncomment if you want to create a default user
-
-        User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
-        ]);
-
-        // TODO: Remove for production
-        
         // Run seeders in correct order (dependencies first)
         $this->call([
             CategorySeeder::class,
@@ -33,5 +23,19 @@ class DatabaseSeeder extends Seeder
             ProjectSeeder::class,
             NewsSeeder::class,
         ]);
+
+        User::create([
+            'name' => 'Admin',
+            'email' => 'admin@example.com',
+            'password' => bcrypt('password'),
+        ]);
+        
+        // Uncomment if you want to create a default user
+
+        // User::factory()->create([
+        //     'name' => 'Admin',
+        //     'email' => 'admin@example.com',
+        //     'password' => bcrypt('password'),
+        // ]);
     }
 }
