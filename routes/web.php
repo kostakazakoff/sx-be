@@ -8,7 +8,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [\App\Http\Controllers\Auth\LoginController::class, 'login']);
 });
 
-Route::post('/logout', [\App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+Route::middleware('auth')->post('/logout', [\App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
 Route::get('/admin', function () {
     if (Auth::check()) {
@@ -17,13 +17,11 @@ Route::get('/admin', function () {
     return redirect()->route('login');
 });
 
-
 Route::middleware(['auth'])->prefix('admin/profile')->name('auth.')->group(function () {
     Route::get('/', [\App\Http\Controllers\Admin\ProfileController::class, 'edit'])->name('edit');
     Route::put('/', [\App\Http\Controllers\Admin\ProfileController::class, 'update'])->name('update');
     Route::post('/password', [\App\Http\Controllers\Admin\ProfileController::class, 'updatePassword'])->name('update-password');
 });
-// TODO: Password reset
 
 // Admin маршрути - POST, UPDATE, DELETE заявки от Blade форми
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
