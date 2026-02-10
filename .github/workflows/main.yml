@@ -39,14 +39,13 @@ jobs:
             echo "======================================"
             echo "Pull latest code from main branch"
             echo "======================================"
-            cd /var/www/gig_construct
+            cd /var/www/gig_construct/backend
             git fetch origin main
             git reset --hard origin/main
 
             echo "======================================"
             echo "Install Laravel and NPM dependencies"
             echo "======================================"
-            cd backend
             composer install --optimize-autoloader --no-dev --no-interaction
             npm ci
             npm run build
@@ -54,6 +53,7 @@ jobs:
             echo "======================================"
             echo "Run safe Laravel rebuild"
             echo "======================================"
+            cd /var/www/gig_construct
             chmod +x safe-rebuild-laravel.sh
             ./safe-rebuild-laravel.sh
 
