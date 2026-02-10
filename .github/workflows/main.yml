@@ -43,7 +43,7 @@ jobs:
         # -------------------------------
         # Backend: update code
         # -------------------------------
-        cd $BACKEND_DIR
+        cd /var/www/gig_construct/backend
 
         # Ensure SSH remote URL
         git remote set-url origin git@github.com:username/repo.git
@@ -51,13 +51,14 @@ jobs:
         git reset --hard origin/main
 
         # Run safe rebuild script
+        cd /var/www/gig_construct
         chmod +x safe-rebuild-laravel.sh
         ./safe-rebuild-laravel.sh
 
         # -------------------------------
         # Frontend: NEXT.js build
         # -------------------------------
-        cd $NEXT_DIR
+        cd /var/www/gig_construct/frontend
         git fetch origin main
         git reset --hard origin/main
 
