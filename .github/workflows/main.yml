@@ -40,8 +40,7 @@ jobs:
             echo "Pull latest code from main branch"
             echo "======================================"
             cd /var/www/gig_construct/backend
-            git fetch origin main
-            git reset --hard origin/main
+            git pull origin main
 
             echo "======================================"
             echo "Install Laravel and NPM dependencies"
