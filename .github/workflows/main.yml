@@ -1,79 +1,71 @@
-name: Production Deploy
+name: Deploy to VPS
 
 on:
   push:
     branches:
       - main
 
+env:
+  BACKEND_DIR: "/var/www/gig_construct/backend"
+  NEXT_DIR: "/var/www/gig_construct/frontend"
+  PHP_VERSION: "8.3"
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: production
 
     steps:
-      # ------------------------
-      # 1. Checkout repository
-      # ------------------------
-      - name: Checkout code
-        uses: actions/checkout@v3
+    # -------------------------------
+    # Checkout repository (local workflow)
+    # -------------------------------
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      # ------------------------
-      # 2. Setup SSH
-      # ------------------------
-      - name: Setup SSH Agent
-        uses: webfactory/ssh-agent@v0.9.1
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    # -------------------------------
+    # Setup SSH
+    # -------------------------------
+    - name: Setup SSH key
+      uses: webfactory/ssh-agent@v0.9.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # ------------------------
-      # 3. Deploy on VPS
-      # ------------------------
-      - name: Deploy to VPS
-        env:
-          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
-          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
-        run: |
-            ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST << 'EOF'
-            set -e
+    # -------------------------------
+    # Pull & deploy on VPS
+    # -------------------------------
+    - name: Deploy on VPS
+      run: |
+        ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} << 'EOF'
+        set -e
+        echo "======================================"
+        echo "Deploying project on VPS"
+        echo "======================================"
 
-            echo "======================================"
-            echo "Pull latest code from main branch"
-            echo "======================================"
-            cd /var/www/gig_construct/backend
-            git pull origin main
+        # -------------------------------
+        # Backend: update code
+        # -------------------------------
+        cd $BACKEND_DIR
 
-            echo "======================================"
-            echo "Install Laravel and NPM dependencies"
-            echo "======================================"
-            composer install --optimize-autoloader --no-dev --no-interaction
-            npm ci
-            npm run build
+        # Ensure SSH remote URL
+        git remote set-url origin git@github.com:username/repo.git
+        git fetch origin main
+        git reset --hard origin/main
 
-            echo "======================================"
-            echo "Run safe Laravel rebuild"
-            echo "======================================"
-            cd /var/www/gig_construct
-            chmod +x safe-rebuild-laravel.sh
-            ./safe-rebuild-laravel.sh
+        # Run safe rebuild script
+        chmod +x safe-rebuild-laravel.sh
+        ./safe-rebuild-laravel.sh
 
-            echo "======================================"
-            echo "Restart PM2 processes (NEXT + laravel-queue)"
-            echo "======================================"
-            cd /var/www/gig_construct
-            pm2 restart ecosystem.config.js || pm2 start ecosystem.config.js
+        # -------------------------------
+        # Frontend: NEXT.js build
+        # -------------------------------
+        cd $NEXT_DIR
+        git fetch origin main
+        git reset --hard origin/main
 
-            # ===============================
-            # Fix permissions for Laravel + Vite + PM2 NEXT
-            # ===============================
-            sudo chown -R kosta:www-data /var/www/gig_construct/backend
-            sudo chmod -R 750 /var/www/gig_construct/backend/public
-            sudo chown -R kosta:www-data /var/www/gig_construct/backend/storage /var/www/gig_construct/backend/bootstrap/cache
-            sudo chmod -R 775 /var/www/gig_construct/backend/storage /var/www/gig_construct/backend/bootstrap/cache
-            sudo chown www-data:www-data /run/php/php-fpm.sock
-            sudo chmod 660 /run/php/php-fpm.sock
+        npm ci
+        npm run build
+        pm2 restart nextjs || pm2 start ecosystem.config.js --only nextjs
 
-
-            echo "======================================"
-            echo "✅ Deploy completed successfully!"
-            echo "======================================"
-            EOF
+        echo "======================================"
+        echo "Deploy complete!"
+        echo "======================================"
+        EOF
