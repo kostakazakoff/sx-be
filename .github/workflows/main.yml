@@ -33,13 +33,13 @@ jobs:
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
         run: |
-          # ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST << 'EOF'
+            # ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST << 'EOF'
             # set -e
 
             echo "======================================"
             echo "Pull latest code from main branch"
             echo "======================================"
-            cd /var/www/gig_construct/backend
+            cd /var/www/gig_construct/backend/
             git pull origin main
 
             echo "======================================"
