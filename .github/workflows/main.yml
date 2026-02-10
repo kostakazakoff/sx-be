@@ -39,7 +39,7 @@ jobs:
             echo "======================================"
             echo "Pull latest code from main branch"
             echo "======================================"
-            cd /var/www/gig_construct/backend/
+            cd /var/www/gig_construct/backend
             git pull origin main
 
             echo "======================================"
