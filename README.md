@@ -1,6 +1,5 @@
 # GiG Construction API
 
-
 API-first Laravel 12 backend for managing projects, media, and client inquiries with multilingual support.
 
 ## Features
