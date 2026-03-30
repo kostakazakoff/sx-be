@@ -24,8 +24,8 @@ class Units extends Model implements HasMedia
                 'Unit is assigned to services.'
             );
         }
-
-        $this->delete();
+        
+        parent::delete();
     }
 
     public function getNameAttribute(): string

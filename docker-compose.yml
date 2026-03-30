@@ -1,7 +1,7 @@
 services:
   mysql:
     image: mysql:8.0
-    container_name: gig_mysql
+    container_name: sx_mysql
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -15,11 +15,11 @@ services:
       - ./docker/mysql/init:/docker-entrypoint-initdb.d
     command: --default-authentication-plugin=mysql_native_password
     networks:
-      - gig_network
+      - sx_network
 
   redis:
     image: redis:8.4.0-alpine
-    container_name: gig_redis
+    container_name: sx_redis
     restart: unless-stopped
     ports:
       - "6379:6379"
@@ -27,7 +27,7 @@ services:
       - redis_data:/data
     command: redis-server --appendonly yes
     networks:
-      - gig_network
+      - sx_network
 
 volumes:
   mysql_data:
@@ -36,5 +36,5 @@ volumes:
     driver: local
 
 networks:
-  gig_network:
+  sx_network:
     driver: bridge
