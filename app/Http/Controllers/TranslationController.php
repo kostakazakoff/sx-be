@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use DeepL\DeepLClient;
 use Illuminate\Http\Request;
-use DeepL\Translator;
 
 class TranslationController extends Controller
 {
