@@ -59,8 +59,11 @@ return [
             'throw' => false,
             'report' => false,
             'visibility' => 'public',
-            'root' => env('AWS_IMAGES_ROOT', ''),
-        ],
+            // 'root' => env('AWS_IMAGES_ROOT', ''),
+            'http' => [
+                'verify' => env('AWS_SSL_VERIFY', false),
+            ],
+          ],
 
     ],
 
